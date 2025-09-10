@@ -1,7 +1,9 @@
 package verrors
 
-import "errors"
-
 var (
-	ErrTypeAssertion = errors.New("type assertion failed")
+	ErrTypeAssertion = New(1001, "type assertion failed")
 )
+
+var predefinedErrors = []*Error{
+	ErrTypeAssertion,
+}

@@ -6,6 +6,7 @@ type Tx interface {
 	Begin() Tx
 	Commit() Tx
 	Rollback() Tx
+	DB() *gorm.DB
 	Error() error
 }
 
@@ -29,6 +30,9 @@ func (t *txImpl) Commit() Tx {
 func (t *txImpl) Rollback() Tx {
 	t.db = t.db.Rollback()
 	return t
+}
+func (t *txImpl) DB() *gorm.DB {
+	return t.db
 }
 
 func (t *txImpl) Error() error {

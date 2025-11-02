@@ -1,4 +1,4 @@
-package vlog
+package log
 
 import (
 	"os"

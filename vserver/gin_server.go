@@ -17,9 +17,7 @@ type GinServer struct {
 	cfg    *GinServerConfig
 }
 
-type GinServerOptions = func(server *GinServer) *GinServer
-
-func NewGinServer(ctx context.Context, cfg GinServerConfig, opts ...GinServerOptions) (Server, error) {
+func NewGinServer(ctx context.Context, cfg GinServerConfig, opts ...ServerOptions) (Server, error) {
 	r := gin.Default()
 	srv := &http.Server{
 		Addr:    cfg.Addr,
@@ -29,7 +27,7 @@ func NewGinServer(ctx context.Context, cfg GinServerConfig, opts ...GinServerOpt
 		server: srv,
 	}
 	for _, opt := range opts {
-		ginServer = opt(ginServer)
+		ginServer = (opt(ginServer)).(*GinServer)
 	}
 	return ginServer, nil
 }
@@ -46,4 +44,11 @@ func (g *GinServer) Shutdown(ctx context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (g *GinServer) Register(opts ...ServerOptions) Server {
+	for _, opt := range opts {
+		*g = *opt(g).(*GinServer)
+	}
+	return g
 }

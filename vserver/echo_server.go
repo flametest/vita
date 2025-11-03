@@ -21,9 +21,7 @@ type EchoServer struct {
 	cfg    *EchoServerConfig
 }
 
-type EchoServerOptions = func(server *EchoServer) *EchoServer
-
-func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...EchoServerOptions) (Server, error) {
+func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOptions) (Server, error) {
 	if cfg == nil {
 		return nil, verrors.New(500, "cfg is nil")
 	}
@@ -44,7 +42,7 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...EchoServe
 		cfg:    cfg,
 	}
 	for _, opt := range opts {
-		echoServer = opt(echoServer)
+		echoServer = (opt(echoServer)).(*EchoServer)
 	}
 	return echoServer, nil
 }
@@ -61,4 +59,11 @@ func (e *EchoServer) Shutdown(ctx context.Context) error {
 		return err
 	}
 	return nil
+}
+
+func (e *EchoServer) Register(opts ...ServerOptions) Server {
+	for _, opt := range opts {
+		*e = *opt(e).(*EchoServer)
+	}
+	return e
 }

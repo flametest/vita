@@ -67,3 +67,7 @@ func (e *EchoServer) Register(opts ...ServerOptions) Server {
 	}
 	return e
 }
+
+func (e *EchoServer) GetEchoServer() *echo.Echo {
+	return e.server
+}

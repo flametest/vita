@@ -52,3 +52,7 @@ func (g *GinServer) Register(opts ...ServerOptions) Server {
 	}
 	return g
 }
+
+func (g *GinServer) GetGinServer() *http.Server {
+	return g.server
+}

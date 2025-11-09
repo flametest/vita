@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm/schema"
 )
 
-func NewDB(config Config) (*gorm.DB, error) {
+func NewDB(config *Config) (*gorm.DB, error) {
 	dialector := NewDialector(config)
 	db, err := gorm.Open(dialector, &gorm.Config{
 		NamingStrategy: schema.NamingStrategy{

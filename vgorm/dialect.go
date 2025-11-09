@@ -19,7 +19,7 @@ func (d Dialect) String() string {
 	return string(d)
 }
 
-func NewDialector(config Config) gorm.Dialector {
+func NewDialector(config *Config) gorm.Dialector {
 	if config.Dialect == DialectPostgres {
 		return postgres.New(postgres.Config{})
 	} else if config.Dialect == DialectMySQL {

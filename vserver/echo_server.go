@@ -29,10 +29,11 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOpt
 	e := echo.New()
 	e.Use(middleware.RemoveTrailingSlash())
 	e.Use(vmiddleware.APILogMiddleware())
+	e.Use(middleware.RequestID())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"OPTIONS", "GET", "PUT", "POST", "PATCH", "HEAD", "DELETE"},
-		AllowHeaders:     []string{"Origin", "Accept", "Content-Type", "X-Request-ID", "X-Authorization"},
+		AllowHeaders:     []string{"Origin", "Accept", "Content-Type", "X-Request-Id", "X-Authorization"},
 		AllowCredentials: true,
 	}))
 	e.GET("/health", func(c echo.Context) error {

@@ -29,7 +29,7 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOpt
 	e := echo.New()
 	e.Use(middleware.RemoveTrailingSlash())
 	e.Use(vmiddleware.APILogMiddleware())
-	e.Use(middleware.RequestID())
+	e.Use(vmiddleware.TraceWithRequestId())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"OPTIONS", "GET", "PUT", "POST", "PATCH", "HEAD", "DELETE"},

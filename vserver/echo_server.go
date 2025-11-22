@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/flametest/vita/verrors"
+	"github.com/flametest/vita/vmiddleware"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
@@ -27,6 +28,7 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOpt
 	}
 	e := echo.New()
 	e.Use(middleware.RemoveTrailingSlash())
+	e.Use(vmiddleware.APILogMiddleware())
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins:     []string{"*"},
 		AllowMethods:     []string{"OPTIONS", "GET", "PUT", "POST", "PATCH", "HEAD", "DELETE"},

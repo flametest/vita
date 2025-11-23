@@ -27,6 +27,7 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOpt
 		return nil, verrors.New(500, "cfg is nil")
 	}
 	e := echo.New()
+	e.Use(vmiddleware.ErrorHandleMiddleware())
 	e.Use(middleware.RemoveTrailingSlash())
 	e.Use(vmiddleware.APILogMiddleware())
 	e.Use(vmiddleware.TraceWithRequestId())

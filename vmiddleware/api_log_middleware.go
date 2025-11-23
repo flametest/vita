@@ -70,9 +70,9 @@ func APILogMiddleware() echo.MiddlewareFunc {
 			c.Response().Writer = &bodyDumpWriter{Writer: respBody, ResponseWriter: origWriter}
 
 			var errValue string
-			err := next(c)
-			if err != nil {
-				errValue = err.Error()
+			e := next(c)
+			if e != nil {
+				errValue = e.Error()
 			}
 			duration := time.Since(start)
 			output := cfg.Format
@@ -93,17 +93,17 @@ func APILogMiddleware() echo.MiddlewareFunc {
 			output = strings.ReplaceAll(output, "${response_body}", respBody.String())
 
 			if cfg.Output == nil {
-				_, err = c.Logger().Output().Write([]byte(output))
+				_, err := c.Logger().Output().Write([]byte(output))
 				if err != nil {
 					return err
 				}
-				return err
+				return e
 			}
-			_, err = cfg.Output.Write([]byte(output))
+			_, err := cfg.Output.Write([]byte(output))
 			if err != nil {
 				return err
 			}
-			return err
+			return e
 		}
 	}
 }

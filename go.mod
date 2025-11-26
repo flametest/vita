@@ -5,8 +5,10 @@ go 1.25.1
 require (
 	github.com/gin-gonic/gin v1.11.0
 	github.com/labstack/echo/v4 v4.13.4
+	github.com/mmcloughlin/geohash v0.10.0
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.34.0
+	github.com/shopspring/decimal v1.4.0
 	golang.org/x/crypto v0.43.0
 	gorm.io/driver/mysql v1.6.0
 	gorm.io/driver/postgres v1.6.0

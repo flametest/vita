@@ -2,9 +2,10 @@ package verrors
 
 import (
 	"fmt"
+	"net/http"
+
 	"github.com/flametest/vita/vhttp"
 	"github.com/pkg/errors"
-	"net/http"
 )
 
 var service string
@@ -33,6 +34,16 @@ func New(errCode int, errMsg string) *Error {
 		errCode:  errCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusInternalServerError,
+		service:  service,
+	}
+}
+
+func NewFromEchoHTTPError(err error, httpCode int) *Error {
+	return &Error{
+		err:      err,
+		errCode:  httpCode,
+		errMsg:   err.Error(),
+		httpCode: vhttp.StatusCode(httpCode),
 		service:  service,
 	}
 }

@@ -28,7 +28,7 @@ func ErrorHandleMiddleware() echo.MiddlewareFunc {
 				if ve, ok := err.(*verrors.Error); ok {
 					newErr = ve
 				} else if ee, ok := err.(*echo.HTTPError); ok {
-					newErr = verrors.New(ee.Code, ee.Error())
+					newErr = verrors.NewFromEchoHTTPError(ee, ee.Code)
 				} else {
 					newErr = verrors.InternalServerError(err.Error())
 				}

@@ -2,6 +2,7 @@ package vo
 
 import (
 	"database/sql/driver"
+
 	"github.com/flametest/vita/verrors"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -51,4 +52,9 @@ func (p *Password) Scan(value interface{}) error {
 // https://gorm.io/docs/data_types.html
 func (p *Password) Value() (driver.Value, error) {
 	return p.hashedPwd, nil
+}
+
+// MarshalText implement TextMarshaler
+func (p Password) MarshalText() ([]byte, error) {
+	return []byte("******"), nil
 }

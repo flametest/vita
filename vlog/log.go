@@ -10,7 +10,7 @@ var logger Logger
 
 func InitLogger(app string, level zerolog.Level) {
 	l := &loggerImpl{
-		zerolog.New(os.Stdout).Level(level).With().Timestamp().Logger(),
+		zerolog.New(os.Stdout).Level(level).With().Timestamp().Stack().Logger(),
 	}
 	if app != "" {
 		l.Hook(AppHook(app))

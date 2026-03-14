@@ -14,7 +14,7 @@ type EchoServerConfig struct {
 	Name      string `json:"name" yaml:"name"`
 	Addr      string `json:"addr" yaml:"addr"`
 	Env       string `json:"env" yaml:"env"`
-	WithStack bool   `json:"with_stack" yaml:"with_stack"`
+	WithStack bool   `json:"withStack" yaml:"withStack"`
 }
 
 type EchoServer struct {

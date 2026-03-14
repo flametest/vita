@@ -26,7 +26,7 @@ func ErrorHandleMiddleware(withStack bool) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			err := next(c)
-			log.Error().Err(err)
+			log.Error().Stack().Err(err).Msg("")
 			var newErr *verrors.Error
 			if err != nil {
 				if ve, ok := err.(*verrors.Error); ok {

@@ -2,6 +2,8 @@ package vgorm
 
 import "gorm.io/gorm"
 
+type TxnFunc func(tx Tx) error
+
 type Tx interface {
 	Begin() Tx
 	Commit() Tx

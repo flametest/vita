@@ -10,7 +10,15 @@ import (
 
 var service string
 
-const DefaultErrorCode = 1000
+const (
+	DefaultErrorCode   = 1000
+	InternalErrorCode  = 1500
+	BadRequestCode     = 1400
+	NotFoundCode       = 1404
+	ForbiddenCode      = 1403
+	UnauthorizedCode   = 1401
+	NotImplementedCode = 1502
+)
 
 type Error struct {
 	err      error
@@ -51,7 +59,7 @@ func NewFromEchoHTTPError(err error, httpCode int) *Error {
 func InternalServerError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  InternalErrorCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusInternalServerError,
 		service:  service,
@@ -61,7 +69,7 @@ func InternalServerError(errMsg string) *Error {
 func BadRequestError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  BadRequestCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusBadRequest,
 		service:  service,
@@ -71,7 +79,7 @@ func BadRequestError(errMsg string) *Error {
 func NotFoundError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  NotFoundCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusNotFound,
 		service:  service,
@@ -81,7 +89,7 @@ func NotFoundError(errMsg string) *Error {
 func ForbiddenError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  ForbiddenCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusForbidden,
 		service:  service,
@@ -91,7 +99,7 @@ func ForbiddenError(errMsg string) *Error {
 func UnauthorizedError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  UnauthorizedCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusUnauthorized,
 		service:  service,
@@ -101,7 +109,7 @@ func UnauthorizedError(errMsg string) *Error {
 func NotImplementedError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
-		errCode:  DefaultErrorCode,
+		errCode:  NotImplementedCode,
 		errMsg:   errMsg,
 		httpCode: http.StatusNotImplemented,
 		service:  service,

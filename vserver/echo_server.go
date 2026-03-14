@@ -11,9 +11,10 @@ import (
 )
 
 type EchoServerConfig struct {
-	Name string `json:"name" yaml:"name"`
-	Addr string `json:"addr" yaml:"addr"`
-	Env  string `json:"env" yaml:"env"`
+	Name      string `json:"name" yaml:"name"`
+	Addr      string `json:"addr" yaml:"addr"`
+	Env       string `json:"env" yaml:"env"`
+	WithStack bool   `json:"with_stack" yaml:"with_stack"`
 }
 
 type EchoServer struct {
@@ -27,7 +28,7 @@ func NewEchoServer(ctx context.Context, cfg *EchoServerConfig, opts ...ServerOpt
 		return nil, verrors.New(500, "cfg is nil")
 	}
 	e := echo.New()
-	e.Use(vmiddleware.ErrorHandleMiddleware())
+	e.Use(vmiddleware.ErrorHandleMiddleware(cfg.WithStack))
 	e.Use(middleware.RemoveTrailingSlash())
 	e.Use(vmiddleware.APILogMiddleware())
 	e.Use(vmiddleware.TraceWithRequestId())

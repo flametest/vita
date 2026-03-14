@@ -37,7 +37,9 @@ func ErrorHandleMiddleware(withStack bool) echo.MiddlewareFunc {
 				}
 			}
 			if newErr != nil {
-				log.Error().Stack().Err(err).Msg("request error")
+				log.Error().
+					Str("stack", fmt.Sprintf("%+v", verrors.WithStack(newErr.Err()))).
+					Msg("request error")
 				res := NewErrorResponse(newErr, withStack)
 				return c.JSON(newErr.HttpCode().Int(), res)
 			}

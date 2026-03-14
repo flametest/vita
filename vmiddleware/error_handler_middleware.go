@@ -5,24 +5,28 @@ import (
 
 	"github.com/flametest/vita/verrors"
 	"github.com/flametest/vita/vhttp"
+	log "github.com/flametest/vita/vlog"
 	"github.com/labstack/echo/v4"
-	"github.com/pkg/errors"
 )
 
-func NewErrorResponse(e *verrors.Error) *vhttp.VResponse {
-	return &vhttp.VResponse{
+func NewErrorResponse(e *verrors.Error, withStack bool) *vhttp.VResponse {
+	resp := &vhttp.VResponse{
 		Service: e.Service(),
 		Code:    e.ErrCode(),
 		Message: e.ErrMsg(),
 		Error:   e.Error(),
-		Stack:   fmt.Sprintf("%+v", errors.WithStack(e)),
 	}
+	if withStack {
+		resp.Stack = fmt.Sprintf("%+v", verrors.WithStack(e))
+	}
+	return resp
 }
 
-func ErrorHandleMiddleware() echo.MiddlewareFunc {
+func ErrorHandleMiddleware(withStack bool) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			err := next(c)
+			log.Error().Err(err)
 			var newErr *verrors.Error
 			if err != nil {
 				if ve, ok := err.(*verrors.Error); ok {
@@ -34,7 +38,7 @@ func ErrorHandleMiddleware() echo.MiddlewareFunc {
 				}
 			}
 			if newErr != nil {
-				res := NewErrorResponse(newErr)
+				res := NewErrorResponse(newErr, withStack)
 				return c.JSON(newErr.HttpCode().Int(), res)
 			}
 			return err

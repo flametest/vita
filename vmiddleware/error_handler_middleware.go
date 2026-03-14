@@ -26,7 +26,6 @@ func ErrorHandleMiddleware(withStack bool) echo.MiddlewareFunc {
 	return func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			err := next(c)
-			log.Error().Stack().Err(err).Msg("")
 			var newErr *verrors.Error
 			if err != nil {
 				if ve, ok := err.(*verrors.Error); ok {
@@ -38,6 +37,9 @@ func ErrorHandleMiddleware(withStack bool) echo.MiddlewareFunc {
 				}
 			}
 			if newErr != nil {
+				log.Error().
+					Str("stack", fmt.Sprintf("%+v", verrors.WithStack(newErr.Err()))).
+					Msg("request error")
 				res := NewErrorResponse(newErr, withStack)
 				return c.JSON(newErr.HttpCode().Int(), res)
 			}

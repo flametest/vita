@@ -17,6 +17,7 @@ const (
 	NotFoundCode       = 1404
 	ForbiddenCode      = 1403
 	UnauthorizedCode   = 1401
+	ConflictCode       = 1409
 	NotImplementedCode = 1502
 )
 
@@ -106,6 +107,16 @@ func UnauthorizedError(errMsg string) *Error {
 	}
 }
 
+func ConflictError(errMsg string) *Error {
+	return &Error{
+		err:      errors.New(errMsg),
+		errCode:  ConflictCode,
+		errMsg:   errMsg,
+		httpCode: http.StatusConflict,
+		service:  service,
+	}
+}
+
 func NotImplementedError(errMsg string) *Error {
 	return &Error{
 		err:      errors.New(errMsg),
@@ -159,6 +170,11 @@ func (e *Error) Forbidden() *Error {
 }
 func (e *Error) NotFound() *Error {
 	e.httpCode = http.StatusNotFound
+	return e
+}
+
+func (e *Error) Conflict() *Error {
+	e.httpCode = http.StatusConflict
 	return e
 }
 

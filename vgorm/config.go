@@ -11,6 +11,7 @@ type Config struct {
 	Host         string  `json:"host" yaml:"host"`
 	Port         string  `json:"port" yaml:"port"`
 	Database     string  `json:"database" yaml:"database"`
+	Schema       string  `json:"schema" yaml:"schema"`
 	Username     string  `json:"username" yaml:"username"`
 	Password     string  `json:"password" yaml:"password"`
 	Debug        bool    `json:"debug" yaml:"debug"`
@@ -23,8 +24,8 @@ func (d *Config) DSN() string {
 		return fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			d.Username, d.Password, d.Host, d.Database)
 	} else if d.Dialect == DialectPostgres {
-		return fmt.Sprintf("host=%s port=%s user=%s dbname=%s sslmode=disable",
-			d.Host, d.Port, d.Username, d.Database)
+		return fmt.Sprintf("host=%s port=%s user=%s dbname=%s search_path=%s sslmode=disable",
+			d.Host, d.Port, d.Username, d.Database, d.Schema)
 	} else if d.Dialect == DialectSQLite3 {
 		return fmt.Sprintf("file:%s?cache=shared&mode=memory", d.Database)
 	} else {

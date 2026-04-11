@@ -23,6 +23,10 @@ func NewDB(config *Config) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	if err := db.Use(&OptimisticLockPlugin{}); err != nil {
+		return nil, err
+	}
 	sqlDB, err := db.DB()
 	if err != nil {
 		return nil, err

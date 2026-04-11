@@ -1,43 +1,48 @@
 package log
 
-import (
-	"os"
+import "context"
 
-	"github.com/rs/zerolog"
+type LogType string
+
+const (
+	ZerologType LogType = "zerolog"
 )
 
 var logger Logger
 
-func InitLogger(app string, level zerolog.Level) {
-	l := &loggerImpl{
-		zerolog.New(os.Stdout).Level(level).With().Timestamp().Stack().Logger(),
+func InitLogger(logType LogType, service string, level Level) {
+	switch logType {
+	case ZerologType:
+		logger = NewZeroLogger(service, level)
+	default:
+		logger = NewZeroLogger(service, level)
 	}
-	if app != "" {
-		l.Hook(AppHook(app))
-	}
-	logger = l
 }
 
-func Debug(args ...interface{}) *zerolog.Event {
-	return logger.Debug(args)
+func WithCtx(ctx context.Context) BaseLogger {
+	return logger.WithCtx(ctx)
 }
 
-func Info(args ...interface{}) *zerolog.Event {
-	return logger.Info(args)
+func Debug() Event {
+	return logger.Debug()
 }
 
-func Warn(args ...interface{}) *zerolog.Event {
-	return logger.Warn(args)
+func Info() Event {
+	return logger.Info()
 }
 
-func Error(args ...interface{}) *zerolog.Event {
-	return logger.Error(args)
+func Warn() Event {
+	return logger.Warn()
 }
 
-func Panic(args ...interface{}) *zerolog.Event {
-	return logger.Panic(args)
+func Error() Event {
+	return logger.Error()
 }
 
-func Fatal(args ...interface{}) *zerolog.Event {
-	return logger.Fatal(args)
+func Panic() Event {
+	return logger.Panic()
+}
+
+func Fatal() Event {
+	return logger.Fatal()
 }

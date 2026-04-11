@@ -14,10 +14,7 @@ type EmailAddr struct {
 
 func IsValidEmail(email string) bool {
 	emailRegex := regexp.MustCompile(vstring.EmailRegexString)
-	if emailRegex.MatchString(email) {
-		return true
-	}
-	return false
+	return emailRegex.MatchString(email)
 }
 
 func NewEmailAddr(address string) (*EmailAddr, error) {

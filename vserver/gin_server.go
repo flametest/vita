@@ -25,6 +25,7 @@ func NewGinServer(ctx context.Context, cfg GinServerConfig, opts ...ServerOption
 	}
 	ginServer := &GinServer{
 		server: srv,
+		cfg:    &cfg,
 	}
 	for _, opt := range opts {
 		ginServer = (opt(ginServer)).(*GinServer)

@@ -88,7 +88,7 @@ func (t *Time) Unix() int64 {
 // UnixMilli returns the Unix timestamp in milliseconds.
 // Returns 0 if the time is zero.
 func (t *Time) UnixMilli() int64 {
-	if t.Time.Equal(time.Time{}) {
+	if t.Equal(time.Time{}) {
 		return 0
 	}
 	return t.Time.UnixMilli()
@@ -97,7 +97,7 @@ func (t *Time) UnixMilli() int64 {
 // UnixNano returns the Unix timestamp in nanoseconds.
 // Returns 0 if the time is zero.
 func (t *Time) UnixNano() int64 {
-	if t.Time.Equal(time.Time{}) {
+	if t.Equal(time.Time{}) {
 		return 0
 	}
 	return t.Time.UnixNano()
@@ -106,9 +106,9 @@ func (t *Time) UnixNano() int64 {
 // PbTimestamp converts the Time to a protobuf Timestamp.
 // Returns nil if the time is zero.
 func (t *Time) PbTimestamp() *timestamppb.Timestamp {
-	if t.Time.Equal(time.Time{}) {
+	if t.Equal(time.Time{}) {
 		return nil
 	}
-	tp := t.Time.UTC()
+	tp := t.UTC()
 	return timestamppb.New(tp)
 }

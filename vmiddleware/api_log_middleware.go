@@ -37,10 +37,7 @@ func APILogMiddleware() echo.MiddlewareFunc {
 			`"response_body":"${response_body}","bytes_in":${bytes_in},"bytes_out":${bytes_out}}` + "\n"
 		re, _ := regexp.Compile("health-check")
 		cfg.Skipper = func(context echo.Context) bool {
-			if re.Match([]byte(context.Request().URL.Path)) {
-				return true
-			}
-			return false
+			return re.Match([]byte(context.Request().URL.Path))
 		}
 
 		return func(c echo.Context) error {

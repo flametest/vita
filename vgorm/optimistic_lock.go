@@ -1,14 +1,12 @@
 package vgorm
 
 import (
-	"errors"
 	"reflect"
 
+	"github.com/flametest/vita/verrors"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
-
-var ErrOptimisticLock = errors.New("optimistic lock conflict")
 
 type OptimisticLockPlugin struct{}
 
@@ -60,6 +58,6 @@ func (p *OptimisticLockPlugin) afterUpdate(db *gorm.DB) {
 		return
 	}
 	if db.RowsAffected == 0 {
-		db.Error = ErrOptimisticLock
+		db.Error = verrors.ErrOptimisticLock
 	}
 }

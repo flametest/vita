@@ -17,6 +17,7 @@ type Config struct {
 	Debug        bool    `json:"debug" yaml:"debug"`
 	MaxIdleConns *int    `json:"maxIdleConns" yaml:"maxIdleConns"`
 	MaxOpenConns *int    `json:"maxOpenConns" yaml:"maxOpenConns"`
+	ConnMaxLife  *int    `json:"connMaxLife" yaml:"connMaxLife"`
 }
 
 func (d *Config) DSN() string {

@@ -38,5 +38,8 @@ func NewDB(config *Config) (*gorm.DB, error) {
 	if config.MaxOpenConns != nil {
 		sqlDB.SetMaxOpenConns(*config.MaxOpenConns)
 	}
+	if config.ConnMaxLife != nil {
+		sqlDB.SetConnMaxLifetime(time.Duration(*config.ConnMaxLife) * time.Second)
+	}
 	return db, nil
 }

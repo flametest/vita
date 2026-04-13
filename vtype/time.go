@@ -85,6 +85,11 @@ func (t *Time) Unix() int64 {
 	return t.Time.Unix()
 }
 
+// IsWeekend reports whether the time falls on a weekend (Saturday or Sunday).
+func (t *Time) IsWeekend() bool {
+	return t.Weekday() == time.Saturday || t.Weekday() == time.Sunday
+}
+
 // UnixMilli returns the Unix timestamp in milliseconds.
 // Returns 0 if the time is zero.
 func (t *Time) UnixMilli() int64 {

@@ -31,7 +31,7 @@ func (r *baseRepoImpl) DoInTx(fn TxnFunc) (err error) {
 			log.Error().Msgf("recovery from panic: %s", debug.Stack())
 			switch x := r.(type) {
 			case string:
-				err = fmt.Errorf(x)
+				err = fmt.Errorf("%s", x)
 			case error:
 				err = x
 			default:

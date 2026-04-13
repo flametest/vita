@@ -20,15 +20,16 @@ type Config struct {
 }
 
 func (d *Config) DSN() string {
-	if d.Dialect == DialectMySQL {
+	switch d.Dialect {
+	case DialectMySQL:
 		return fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			d.Username, d.Password, d.Host, d.Database)
-	} else if d.Dialect == DialectPostgres {
+	case DialectPostgres:
 		return fmt.Sprintf("host=%s port=%s user=%s dbname=%s search_path=%s sslmode=disable",
 			d.Host, d.Port, d.Username, d.Database, d.Schema)
-	} else if d.Dialect == DialectSQLite3 {
+	case DialectSQLite3:
 		return fmt.Sprintf("file:%s?cache=shared&mode=memory", d.Database)
-	} else {
+	default:
 		panic(fmt.Sprintf("unknown dialect: %s", d.Dialect))
 	}
 }

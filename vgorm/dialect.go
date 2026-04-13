@@ -20,13 +20,14 @@ func (d Dialect) String() string {
 }
 
 func NewDialector(config *Config) gorm.Dialector {
-	if config.Dialect == DialectPostgres {
-		return postgres.New(postgres.Config{})
-	} else if config.Dialect == DialectMySQL {
+	switch config.Dialect {
+	case DialectPostgres:
+		return postgres.Open(config.DSN())
+	case DialectMySQL:
 		return mysql.Open(config.DSN())
-	} else if config.Dialect == DialectSQLite3 {
+	case DialectSQLite3:
 		return sqlite.Open(config.DSN())
-	} else {
+	default:
 		panic("unsupport dialect")
 	}
 }

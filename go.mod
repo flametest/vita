@@ -3,6 +3,7 @@ module github.com/flametest/vita
 go 1.25.1
 
 require (
+	github.com/alicebob/miniredis/v2 v2.37.0
 	github.com/gin-gonic/gin v1.11.0
 	github.com/go-redsync/redsync/v4 v4.16.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.4.0
@@ -62,6 +63,7 @@ require (
 	github.com/ugorji/go/codec v1.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.2 // indirect
+	github.com/yuin/gopher-lua v1.1.1 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/mock v0.6.0 // indirect
 	golang.org/x/arch v0.22.0 // indirect

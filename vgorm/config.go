@@ -32,8 +32,8 @@ func (d *Config) DSN() string {
 		return fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 			d.Username, d.Password, d.Host, d.Database)
 	case DialectPostgres:
-		return fmt.Sprintf("host=%s port=%s user=%s dbname=%s search_path=%s sslmode=disable",
-			d.Host, d.Port, d.Username, d.Database, d.Schema)
+		return fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s search_path=%s sslmode=disable",
+			d.Host, d.Port, d.Username, d.Password, d.Database, d.Schema)
 	case DialectSQLite3:
 		return fmt.Sprintf("file:%s?cache=shared&mode=memory", d.Database)
 	default:

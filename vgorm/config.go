@@ -6,6 +6,12 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+const (
+	DefaultMaxIdleConns = 10
+	DefaultMaxOpenConns = 25
+	DefaultConnMaxLife  = 300 // seconds
+)
+
 type Config struct {
 	Dialect      Dialect `json:"dialect" yaml:"dialect"`
 	Host         string  `json:"host" yaml:"host"`

@@ -31,15 +31,24 @@ func NewDB(config *Config) (*gorm.DB, error) {
 	if err != nil {
 		return nil, err
 	}
-	if config.MaxIdleConns != nil {
-		sqlDB.SetMaxIdleConns(*config.MaxIdleConns)
-	}
 
+	maxIdleConns := DefaultMaxIdleConns
+	if config.MaxIdleConns != nil {
+		maxIdleConns = *config.MaxIdleConns
+	}
+	sqlDB.SetMaxIdleConns(maxIdleConns)
+
+	maxOpenConns := DefaultMaxOpenConns
 	if config.MaxOpenConns != nil {
-		sqlDB.SetMaxOpenConns(*config.MaxOpenConns)
+		maxOpenConns = *config.MaxOpenConns
 	}
+	sqlDB.SetMaxOpenConns(maxOpenConns)
+
+	connMaxLife := DefaultConnMaxLife
 	if config.ConnMaxLife != nil {
-		sqlDB.SetConnMaxLifetime(time.Duration(*config.ConnMaxLife) * time.Second)
+		connMaxLife = *config.ConnMaxLife
 	}
+	sqlDB.SetConnMaxLifetime(time.Duration(connMaxLife) * time.Second)
+
 	return db, nil
 }

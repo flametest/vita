@@ -19,6 +19,7 @@ func NewDB(config *Config) (*gorm.DB, error) {
 		},
 		Logger:                                   logger.Default.LogMode(config.LogMode()),
 		DisableForeignKeyConstraintWhenMigrating: true,
+		TranslateError:                           true,
 	})
 	if err != nil {
 		return nil, err

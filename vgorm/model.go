@@ -16,7 +16,7 @@ type BaseMysql struct {
 }
 
 type BasePostgres struct {
-	ID        string                 `gorm:"type:uuid;primaryKey;default:gen_random_uuid()"`
+	Id        string                 `gorm:"type:uuid;primaryKey;default:gen_random_uuid()"`
 	Version   optimisticlock.Version `gorm:"column:version"`
 	CreatedAt time.Time              `gorm:"<-:create;index;type:TIMESTAMPTZ;default:CURRENT_TIMESTAMP;not null;column:created_at"`
 	UpdatedAt time.Time              `gorm:"type:TIMESTAMPTZ;default:CURRENT_TIMESTAMP;not null;column:updated_at"`
